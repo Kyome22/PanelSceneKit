@@ -27,11 +27,11 @@ struct SampleApp: App {
 }
 ```
 
-You need to define a custom `NSPanel` that is compliant with `HostingPanel`.
+You need to define a custom `NSPanel` that conforms to `HostingPanel`.
 
 ```swift
-public final class FloatingPanel: NSPanel, HostingPanel {
-    public init<Content: View>(content: () -> Content) {
+final class FloatingPanel: NSPanel, HostingPanel {
+    init<Content: View>(content: () -> Content) {
         super.init(
             contentRect: .zero,
             styleMask: [.titled, .closable, .fullSizeContentView, .nonactivatingPanel],
