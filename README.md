@@ -49,6 +49,29 @@ final class FloatingPanel: NSPanel, HostingPanel {
 }
 ```
 
+You can toggle the visibility of the specified PanelScene from a remote scope.
+
+```diff swift
+@main
+struct SampleApp: App {
++   @PanelState("SomePanelKey") var isPresented: Bool = false
+
+    var body: some Scene {
+        PanelScene(isPresented: $isPresented, type: FloatingPanel.self) {
+            Text("Hello World!")
+                .fixedSize()
+                .padding()
+        }
+    }
+}
+
+// Request to open the specified PanelScene.
+PanelSceneMessenger.request(panelAction: .open, with: "SomePanelKey")
+
+// Request to close the specified PanelScene.
+PanelSceneMessenger.request(panelAction: .close, with: "SomePanelKey")
+```
+
 ## Privacy Manifest
 
 This library does not collect or track user information, so it does not include a PrivacyInfo.xcprivacy file.
