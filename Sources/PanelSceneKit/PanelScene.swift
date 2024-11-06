@@ -9,9 +9,9 @@ import SwiftUI
 
 public struct PanelScene<Panel: HostingPanel, Content: View>: Scene {
     @Binding var isPresented: Bool
-    @ViewBuilder let content: () -> Content
+    @ViewBuilder let content: ([AnyHashable: Any]?) -> Content
 
-    public init(isPresented: Binding<Bool>, type: Panel.Type, @ViewBuilder content: @escaping () -> Content) {
+    public init(isPresented: Binding<Bool>, type: Panel.Type, @ViewBuilder content: @escaping ([AnyHashable: Any]?) -> Content) {
         _isPresented = isPresented
         self.content = content
     }

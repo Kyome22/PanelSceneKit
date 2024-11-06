@@ -9,6 +9,8 @@ import Foundation
 import Observation
 
 @MainActor @Observable final class PanelStateStore {
+    static var userInfo: [AnyHashable: Any]?
+
     @ObservationIgnored private var task: Task<Void, Never>?
     var panelKey: String
     var isPresented: Bool
@@ -18,11 +20,18 @@ import Observation
         self.isPresented = isPresented
         task = Task {
             for await notification in NotificationCenter.default.publisher(for: .didRequestPanelAction).values {
-                if let panelKey = notification.userInfo?["panelKey"] as? String,
-                   panelKey == self.panelKey,
-                   let action = notification.userInfo?["action"] as? PanelAction {
-                    self.isPresented = action == .open
+                guard var userInfo = notification.userInfo,
+                      let panelKey = userInfo.removeValue(forKey: "panelKey") as? String,
+                      let action = userInfo.removeValue(forKey: "action") as? PanelAction,
+                      panelKey == self.panelKey else {
+                    continue
                 }
+                Self.userInfo = if action == .open {
+                    userInfo
+                } else {
+                    nil
+                }
+                self.isPresented = action == .open
             }
         }
     }

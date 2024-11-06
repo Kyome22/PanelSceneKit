@@ -15,7 +15,7 @@ import SwiftUI
         self.closeAction = closeAction
     }
 
-    func open<Content: View>(@ViewBuilder content: @escaping () -> Content) {
+    func open<Content: View>(content: @autoclosure @escaping () -> Content) {
         if panel == nil {
             panel = .init(content: content)
             panel?.delegate = self

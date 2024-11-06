@@ -18,7 +18,7 @@ struct SampleApp: App {
     @State var isPresented: Bool = true
 
     var body: some Scene {
-        PanelScene(isPresented: $isPresented, type: FloatingPanel.self) {
+        PanelScene(isPresented: $isPresented, type: FloatingPanel.self) { _ in
             Text("Hello World!")
                 .fixedSize()
                 .padding()
@@ -57,7 +57,7 @@ struct SampleApp: App {
 +   @PanelState("SomePanelKey") var isPresented: Bool = false
 
     var body: some Scene {
-        PanelScene(isPresented: $isPresented, type: FloatingPanel.self) {
+        PanelScene(isPresented: $isPresented, type: FloatingPanel.self) { _ in
             Text("Hello World!")
                 .fixedSize()
                 .padding()

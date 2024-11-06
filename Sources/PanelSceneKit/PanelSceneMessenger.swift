@@ -8,11 +8,12 @@
 import Foundation
 
 public struct PanelSceneMessenger {
-    public static func request(panelAction: PanelAction, with key: String) {
-        let userInfo: [String : Any] = [
+    public static func request(panelAction: PanelAction, with key: String, userInfo: [AnyHashable : Any]? = nil) {
+        var _userInfo: [AnyHashable : Any] = userInfo ?? [:]
+        _userInfo.merge([
             "panelKey": key,
             "action": panelAction
-        ]
-        NotificationCenter.default.post(name: .didRequestPanelAction, object: nil, userInfo: userInfo)
+        ]) { $1 }
+        NotificationCenter.default.post(name: .didRequestPanelAction, object: nil, userInfo: _userInfo)
     }
 }

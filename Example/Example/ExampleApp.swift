@@ -18,7 +18,8 @@ struct ExampleApp: App {
                 get: { isPresented },
                 set: {
                     let action: PanelAction = $0 ? .open : .close
-                    PanelSceneMessenger.request(panelAction: action, with: "SomePanelKey")
+                    let number = Int.random(in: 0 ..< 10)
+                    PanelSceneMessenger.request(panelAction: action, with: "SomePanelKey", userInfo: ["number": number])
                 }
             )) {
                 Text("Show Panel")
@@ -27,8 +28,12 @@ struct ExampleApp: App {
             .padding()
         }
         .windowResizability(.contentSize)
-        PanelScene(isPresented: $isPresented, type: FloatingPanel.self) {
-            Text("Hello World!").fixedSize().padding()
+        PanelScene(isPresented: $isPresented, type: FloatingPanel.self) { userInfo in
+            if let number = userInfo?["number"] as? Int {
+                Text("Hello World! \(number)").fixedSize().padding()
+            } else {
+                Text("Hello World!").fixedSize().padding()
+            }
         }
     }
 }
